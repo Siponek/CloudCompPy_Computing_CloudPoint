@@ -128,3 +128,33 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+cloud1.ply
+cloud2.ply
+CMakeCache.txt
+entities2.bin
+m3c2_params.txt
+m3c2Output.mat.txt
+MeshBoolean.bin
+perfect_cloud1.ply
+perfect_cloud2.ply
+tempCodeRunnerFile.py
+dataFolder/bigData_1_m3c2_params.txt
+dataFolder/m3c2_params.txt
+dataFolder/M3C2.bin
+dataFolder/myCloud_bigTest.bin
+dataFolder/WORKING_m3c2_params.txt
+dataFolder/PythonParameters/m3c2_params.txt
+dataFolder/PythonParameters/m3c2_paramskk.txt
+dataFolder/pythonScripts_testInputs/1E.txt
+dataFolder/pythonScripts_testInputs/1N.txt
+dataFolder/pythonScripts_testInputs/2E.txt
+dataFolder/pythonScripts_testInputs/2N.txt
+dataFolder/pythonScripts_testInputs/myCloud_1.txt
+dataFolder/pythonScripts_testInputs/myCloud_2.txt
+dataFolder/pythonScripts_testOutputs/bigData_CloudSave_.las
+dataFolder/pythonScripts_testOutputs/bigData_test_1_.las
+dataFolder/pythonScripts_testOutputs/M3C2_output.las
+dataFolder/pythonScripts_testOutputs/M3C2_test.bin
+dataFolder/pythonScripts_testOutputs/M3C2.bin
+dataFolder/pythonScripts_testInputs/myCloud_2.txt
+tempCodeRunnerFile.py
