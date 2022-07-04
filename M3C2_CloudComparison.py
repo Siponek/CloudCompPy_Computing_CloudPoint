@@ -1,14 +1,12 @@
 import os
 import math
 import argparse
-
-# os.environ["_CCTRACE_"] = "ON"
-import cloudComPy as cc
-from gendata import getSampleCloud, dataDir
 import numpy as np
 import laspy
-import tqdm
+from tqdm import tqdm
 from pathlib import Path
+import cloudComPy as cc
+from gendata import getSampleCloud, dataDir
 
 print("Main : Libs loaded")
 import logging
@@ -87,7 +85,7 @@ def convertLasTxt(
     y: float = 0.0
     z: float = 0.0
     #! remark - path 2 has a lot of points, so it takes a while to read it (76_568_359 to be exact).
-    with tqdm.tqdm(total=Path(pathToFile).stat().st_size) as pbar:
+    with tqdm(total=Path(pathToFile).stat().st_size) as pbar:
         with laspy.open(source=pathToFile) as cloudFileHeader:
             if type(cloudFileHeader) != None:
                 cloudFile = laspy.read(source=path2)
@@ -287,8 +285,6 @@ def main():
         help="show version",
     )
     args = argparser.parse_args()
-    # print(args)
-    # print(args.boolean_Verbose)
 
     path1 = os.path.abspath("") + args.firstCd
     path2 = os.path.abspath("") + args.secondCd
@@ -353,6 +349,7 @@ def main():
     #         f.write("%s=%s\n"%(k,v))
     print("Searching for M3C2 plugin in enviroment...")
     if cc.isPluginM3C2():
+        ###* this is actually necesary for the plugin to work
         import cloudComPy.M3C2
 
         prGreen("M3C2 plugin is loaded, attempting to run M3C2")
