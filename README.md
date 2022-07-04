@@ -3,12 +3,11 @@ Mini project for computing distances/differences between two point clouds
 
 
 requirements:
-Anaconda enviroment described for Win10 binary run project of CloudComp39 \n
+Anaconda enviroment described for Win10 binary run project of CloudComp39;
 Laspy
 <!--
-**endline/endline** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+ ✨ _special_ ✨
 
-Here are some ideas to get you started:
 
 - 🔭 I’m currently working on ...
 - 🌱 I’m currently learning ...
