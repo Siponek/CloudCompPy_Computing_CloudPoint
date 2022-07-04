@@ -13,7 +13,8 @@ from pathlib import Path
 print("Main : Libs loaded")
 import logging
 
-
+### TODO : Clear the code below
+### TODO : Keep the cohesion of the code
 class CustomFormatter(logging.Formatter):
 
     grey = "\x1b[38;20m"
@@ -310,6 +311,8 @@ def main():
     # gen.createSymbolicLinks() # required for tests on build, before cc.initCC.init
     cc.initCC()
     prCyan("Loading clouds into CloudComPy...")
+    # * uncomment for generic point clouds test.
+    #! Remember that depending on cloud there has to be a good params file for it!
     cloud1 = cc.loadPointCloud(path1)
     cloud2 = cc.loadPointCloud(path2)
     # cloud1 = cc.loadPointCloud(getSampleCloud(1.0))
@@ -373,7 +376,7 @@ def main():
         # Windows:
 
         pathToSaveOutput = (
-            os.path.abspath("") + "%s" % args.nameOfFileOutput
+            os.path.abspath("") + "/%s" % args.nameOfFileOutput
         )
         print(f"Saving results to {pathToSaveOutput}")
         cc.SavePointCloud(CloudAfterM3C2, pathToSaveOutput)  # OK
