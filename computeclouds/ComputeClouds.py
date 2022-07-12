@@ -4,7 +4,7 @@ import math
 # import argparse
 import numpy as np
 import laspy
-from tqdm.auto import tqdm
+import tqdm
 from pathlib import Path
 import cloudComPy as cc
 from gendata import getSampleCloud, dataDir
@@ -545,7 +545,9 @@ def boundingBox(cloud):
 
 def constrainCloud(
     path_to_cloud: str,
-    path_to_output_cloud: str = (os.path.abspath("") + "/constrained_cloud.txt"),
+    path_to_output_cloud: str = (
+        os.path.abspath("") + "/constrained_cloud.txt"
+    ),
     bounding_box_list: list = [-10, 10, -10, 10, -10, 10, -10, 10],
 ) -> str:
     """
@@ -569,7 +571,7 @@ def constrainCloud(
 
     # Xmin, Xmax, Ymin, Ymax, Zmin, Zmax = -0, 3, -0, 3, -10, 10
     [Xmin, Xmax, Ymin, Ymax, Zmin, Zmax] = bounding_box_list
-    time_now = perf_counter()
+    time_now: float = perf_counter()
     with open(path_to_cloud, "r") as f:
         # TODO check if this is the correct way to read the file, maybe it is better to use the different methods.
         data1 = f.readlines()
@@ -597,7 +599,7 @@ def constrainCloud(
     # ********************************************************************************************************************
     # ? Filtering CHAD version
     # ********************************************************************************************************************
-    time_now = perf_counter()
+    time_now: float = perf_counter()
 
     print("Filtering")
 
@@ -621,14 +623,17 @@ def constrainCloud(
         pbar.close()
 
     print("Filtering done")
-    print("filtered_data1_list len: ", len(filtered_data1_list))
-    print(
-        "Execution for this funtion was", perf_counter() - time_now
-    )
-    print("Saving filtered data...")
+    print("Filtered_data1_list len: ", len(filtered_data1_list))
+    print("Filtering done in: ", perf_counter() - time_now)
+    assert (
+        len(filtered_data1_list) > 1
+    ), "Filtering failed, check the bounding box"
+
+    print(f"Saving filtered data to {path_to_output_cloud}...")
+
     np.savetxt(
-        path_to_output_cloud,
-        filtered_data1_list,
+        fname=path_to_output_cloud,
+        X=filtered_data1_list,
         delimiter=" ",
         newline="\n",
     )
