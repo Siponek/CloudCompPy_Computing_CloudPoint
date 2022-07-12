@@ -84,11 +84,12 @@ def convertLasTxt(
             # ? Points.array is in fact a one point array. if we set chunk_iterator to (1)
             # ? What is the data inside of the point? It must be x,y,z and something else. It is possible to extract x,y,z from the point. Is it enough data?
             for points in cloudFileHeader.chunk_iterator(1):
-                x, y, z = (
-                    points.array[0]["X"],
-                    points.array[0]["Y"],
-                    points.array[0]["Z"],
-                )
+                x, y, z = points.x[0], points.y[0], points.z[0]
+                # x, y, z = (
+                #     points.array[0]["X"],
+                #     points.array[0]["Y"],
+                #     points.array[0]["Z"],
+                # )
                 valuesToAppend = np.array([[x, y, z]])
                 tmpList.append(valuesToAppend)
                 # listCoord_XYZ = np.concatenate((listCoord_XYZ, valuesToAppend), axis=0)
@@ -305,7 +306,7 @@ def calcM3C2(
     includeTimestamp: bool = False,
     nameOfFileOutput: str = "M3C2.las",
     parametersConfigFilePath: str = "m3c2_params.txt",
-    alignICP: bool = True,
+    alignICP: bool = False,
     ICP_max_iterations: int = 40,
     debugTest: bool = False,
     verbose: bool = False,
