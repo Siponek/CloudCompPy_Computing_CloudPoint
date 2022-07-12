@@ -4,7 +4,7 @@ import math
 # import argparse
 import numpy as np
 import laspy
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from pathlib import Path
 import cloudComPy as cc
 from gendata import getSampleCloud, dataDir
@@ -15,7 +15,7 @@ import datetime
 
 # import logging
 
-print("Main : Libs loaded")
+print("ComputeClouds_> Main : Libs loaded")
 
 ### TODO : Clear the code below
 ### TODO : Keep the cohesion of the code
@@ -217,7 +217,7 @@ def createSampleCloud(
     Returns
     -------
     str
-        two paths to point clouds
+        two paths to point clouds, two strings in total
     """
     return getSampleCloud(frequency1), getSampleCloud(frequency2)
 
@@ -484,3 +484,153 @@ def calcM3C2(
         prPurple(
             "Total time: %.2f" % (timeEndTask - timeStartTask)
         )  # timeEndICP - timeStartICP
+
+
+def boundingBox(cloud):
+    """
+    Calculates the bounding box of a cloud. TODO test
+
+    Parameters
+    ----------
+    cloud : CloudComPy.Cloud
+        Cloud to calculate the bounding box of.
+
+    Returns
+    -------
+    CloudComPy.Cloud
+        Bounding box of the cloud. This is a CloudComPy object and not a filtered cloud.
+    """
+    minX = cloud.getMinX()
+    minY = cloud.getMinY()
+    minZ = cloud.getMinZ()
+    maxX = cloud.getMaxX()
+    maxY = cloud.getMaxY()
+    maxZ = cloud.getMaxZ()
+    boundingBox = cc.Cloud(
+        name="boundingBox",
+        pointCount=8,
+        pointAttributes=cc.PointAttributes(
+            attributes=[
+                cc.PointAttribute(
+                    name="x",
+                    type=cc.PointAttributeType.FLOAT,
+                    count=1,
+                    offset=0,
+                ),
+                cc.PointAttribute(
+                    name="y",
+                    type=cc.PointAttributeType.FLOAT,
+                    count=1,
+                    offset=4,
+                ),
+                cc.PointAttribute(
+                    name="z",
+                    type=cc.PointAttributeType.FLOAT,
+                    count=1,
+                    offset=8,
+                ),
+            ]
+        ),
+    )
+    boundingBox.setPoint(0, minX, minY, minZ)
+    boundingBox.setPoint(1, minX, minY, maxZ)
+    boundingBox.setPoint(2, minX, maxY, minZ)
+    boundingBox.setPoint(3, minX, maxY, maxZ)
+    boundingBox.setPoint(4, maxX, minY, minZ)
+    boundingBox.setPoint(5, maxX, minY, maxZ)
+    boundingBox.setPoint(6, maxX, maxY, minZ)
+    boundingBox.setPoint(7, maxX, maxY, maxZ)
+    return boundingBox
+
+
+def constrainCloud(
+    path_to_cloud: str,
+    path_to_output_cloud: str = (os.path.abspath("") + "/constrained_cloud.txt"),
+    bounding_box_list: list = [-10, 10, -10, 10, -10, 10, -10, 10],
+) -> str:
+    """
+    Constrains the bounding box of a cloud.
+
+    Parameters
+    ----------
+    path_to_cloud : CloudComPy.Cloud
+        Path to a cloud to constrain the bounding box of.
+    path_to_output_cloud : str
+        Path to the output cloud.
+
+
+    bounding_box_list : list
+        List of bounding coords to constrain the cloud to. E.g. bounding_box_list = [Xmin, Xmax, Ymin, Ymax, Zmin, Zmax]
+    Returns
+    -------
+    CloudComPy.Cloud
+        Constrained bounding box of the cloud. Filtered original cloud.
+    """
+
+    # Xmin, Xmax, Ymin, Ymax, Zmin, Zmax = -0, 3, -0, 3, -10, 10
+    [Xmin, Xmax, Ymin, Ymax, Zmin, Zmax] = bounding_box_list
+    time_now = perf_counter()
+    with open(path_to_cloud, "r") as f:
+        # TODO check if this is the correct way to read the file, maybe it is better to use the different methods.
+        data1 = f.readlines()
+        print("Data loaded")
+        print("Data1: ", len(data1))
+        # data1 = [list(map(float, line.split())) for line in data1]
+        # data2 = [list(map(float, line.split())) for line in data2]
+
+        data1_list = []
+        for i in range(len(data1)):
+            data1_list.append(data1[i].split(" "))
+            data1_list[i] = [float(x) for x in data1_list[i]]
+
+        print("data1_list: ", len(data1_list))
+
+        print("data1_list: ", data1_list[:10])
+    print("File read and converted in:", perf_counter() - time_now)
+
+    # np.savetxt(
+    #     r"C:\Users\szinp\Desktop\GIS_PROJECT\CloudComPy39_20220513\CloudCompPy_Computing-CloudPoint\dataFolder\pythonScripts_testInputs\1_E_subsample_ORIGINAL.txt",
+    #     data1_list,
+    #     delimiter=" ",
+    #     newline="\n",
+    # )
+    # ********************************************************************************************************************
+    # ? Filtering CHAD version
+    # ********************************************************************************************************************
+    time_now = perf_counter()
+
+    print("Filtering")
+
+    filtered_data1_list = []
+    with tqdm.tqdm(total=len(data1_list)) as pbar:
+        pbar.colour = "MAGENTA"
+        for cell_in_data1_list in data1_list:
+            if (
+                cell_in_data1_list[0] >= Xmax
+                or cell_in_data1_list[0] <= Xmin
+                or cell_in_data1_list[1] >= Ymax
+                or cell_in_data1_list[1] <= Ymin
+                or cell_in_data1_list[2] >= Zmax
+                or cell_in_data1_list[2] <= Zmin
+            ):
+                continue
+            else:
+                filtered_data1_list.append(cell_in_data1_list)
+                # TODO fix the update of the bar
+            pbar.update(1)
+        pbar.close()
+
+    print("Filtering done")
+    print("filtered_data1_list len: ", len(filtered_data1_list))
+    print(
+        "Execution for this funtion was", perf_counter() - time_now
+    )
+    print("Saving filtered data...")
+    np.savetxt(
+        path_to_output_cloud,
+        filtered_data1_list,
+        delimiter=" ",
+        newline="\n",
+    )
+    print("Done saving filtered data")
+    return path_to_output_cloud
