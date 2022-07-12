@@ -545,9 +545,7 @@ def boundingBox(cloud):
 
 def constrainCloud(
     path_to_cloud: str,
-    path_to_output_cloud: str = (
-        os.path.abspath("") + "/constrained_cloud.txt"
-    ),
+    path_to_output_cloud: str = "\constrained_cloud.txt",
     bounding_box_list: list = [-10, 10, -10, 10, -10, 10, -10, 10],
 ) -> str:
     """
@@ -568,7 +566,12 @@ def constrainCloud(
     CloudComPy.Cloud
         Constrained bounding box of the cloud. Filtered original cloud.
     """
+    assert os.path.isfile(path_to_cloud), "Error, file not found"
+    if path_to_output_cloud == "\constrained_cloud.txt":
+        path_to_output_cloud = os.path.abspath("") + "/constrained_cloud.txt"
 
+    print(f"Constraining cloud {path_to_cloud}")
+    print(f"Output cloud {path_to_output_cloud}")
     # Xmin, Xmax, Ymin, Ymax, Zmin, Zmax = -0, 3, -0, 3, -10, 10
     [Xmin, Xmax, Ymin, Ymax, Zmin, Zmax] = bounding_box_list
     time_now: float = perf_counter()
