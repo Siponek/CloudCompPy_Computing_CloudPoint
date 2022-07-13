@@ -300,6 +300,14 @@ def writeParamsFile(
         return paramFilename
 
 
+def overwrite_parameters(path_to_params_file, parameters_dic):
+    with open(path_to_params_file, "w") as f:
+        f.write("[General]\n")
+        for key, value in parameters_dic.items():
+            f.write("%s=%s\n" % (key, value))
+    return path_to_params_file
+
+
 def calcM3C2(
     firstCd: str,
     secondCd: str,
@@ -568,7 +576,9 @@ def constrainCloud(
     """
     assert os.path.isfile(path_to_cloud), "Error, file not found"
     if path_to_output_cloud == "\constrained_cloud.txt":
-        path_to_output_cloud = os.path.abspath("") + "/constrained_cloud.txt"
+        path_to_output_cloud = (
+            os.path.abspath("") + "/constrained_cloud.txt"
+        )
 
     print(f"Constraining cloud {path_to_cloud}")
     print(f"Output cloud {path_to_output_cloud}")
@@ -588,9 +598,9 @@ def constrainCloud(
             data1_list.append(data1[i].split(" "))
             data1_list[i] = [float(x) for x in data1_list[i]]
 
-        print("data1_list: ", len(data1_list))
+        print("data1_list length: ", len(data1_list))
 
-        print("data1_list: ", data1_list[:10])
+        print("data1_list[:10]: ", data1_list[:10])
     print("File read and converted in:", perf_counter() - time_now)
 
     # np.savetxt(
