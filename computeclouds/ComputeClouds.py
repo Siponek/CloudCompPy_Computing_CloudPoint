@@ -464,13 +464,9 @@ def calcM3C2(
                 + str(date_time_format)
                 + ".las"
             )
-            pathToSaveOutput = (
-                os.path.abspath("") + "/%s" % nameOfFileOutput
-            )
+            pathToSaveOutput = os.path.abspath(nameOfFileOutput)
         else:
-            pathToSaveOutput = (
-                os.path.abspath("") + "/%s" % nameOfFileOutput
-            )
+            pathToSaveOutput = os.path.abspath(nameOfFileOutput)
         print(f"Saving results to {pathToSaveOutput}")
         try:
             cc.SavePointCloud(CloudAfterM3C2, pathToSaveOutput)  # OK
