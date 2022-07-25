@@ -360,12 +360,12 @@ def calcM3C2(
     path1 = firstCd
     path2 = secondCd
 
-    assert os.path.isfile(
-        path1
-    ), "First cloud file does not exist. Check the path."
-    assert os.path.isfile(
-        path2
-    ), "Second cloud file does not exist. Check the path."
+    # assert os.path.isfile(
+    #     path1
+    # ), "First cloud file does not exist. Check the path."
+    # assert os.path.isfile(
+    #     path2
+    # ), "Second cloud file does not exist. Check the path."
 
     prYellow("parametersConfigFilePath _>")
     prYellow(os.path.abspath(parametersConfigFilePath))
@@ -431,6 +431,7 @@ def calcM3C2(
             CloudAfterM3C2 = cc.M3C2.computeM3C2(
                 [cloud1, cloud2], paramFilePath
             )
+
             prGreen("M3C2 plugin work finished")
             if CloudAfterM3C2 is None:
                 raise RuntimeError
