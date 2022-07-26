@@ -327,7 +327,7 @@ def calcM3C2(
     debugTest: bool = False,
     verbose: bool = False,
 ) -> None:
-    """calcM3C2 _summary_
+    f"""calcM3C2 _summary_ It takes into two file paths {firstCd} and {secondCd} to point clouds and runs M3C2. Loads .txt and .las files.(hopefully)
 
     Parameters
     ----------
@@ -354,28 +354,33 @@ def calcM3C2(
     Raises
     ------
     RuntimeError
-        _description_
+        Apperently something went wrong (:
     RuntimeError
-        _description_
+        Apperently something went wrong (:
     RuntimeError
-        _description_
+        Apperently something went wrong (:
     RuntimeError
-        _description_
+        Apperently something went wrong (:
     """
+
     if verbose:
         timeStartTask = perf_counter()
     paramFilePath = parametersConfigFilePath
-    path1 = firstCd
-    path2 = secondCd
+    # path1 = firstCd
+    # path2 = secondCd
+    path1 = os.path.realpath(firstCd)
+    path2 = os.path.realpath(secondCd)
+    print(os.path.realpath(os.path.curdir))
+    print(f"Loading {path1}")
+    print(f"Loading {path2}")
+    if type(firstCd) is str and type(secondCd) is str:
+        assert os.path.isfile(
+            path1
+        ), f"First cloud file does not exist : \n {path1}\nCheck the path"
+        assert os.path.isfile(
+            path2
+        ), f"Second cloud file does not exist : \n {path1}\n Check the path"
 
-    """
-    assert os.path.isfile(
-        path1
-    ), "First cloud file does not exist. Check the path."
-    assert os.path.isfile(
-        path2
-    ), "Second cloud file does not exist. Check the path."
-    """
     prYellow("parametersConfigFilePath _>")
     prYellow(os.path.abspath(parametersConfigFilePath))
     # print(os.path.abspath(parametersConfigFilePath) + parametersConfigFilePath )
@@ -388,12 +393,11 @@ def calcM3C2(
 
     # gen.createSymbolicLinks() # required for tests on build, before cc.initCC.init
     cc.initCC()
-    prCyan("Loading clouds into CloudComPy...")
+    prCyan("Loading clouds into CloudComPy as cloud types...")
     # * uncomment for generic point clouds test.
     #! Remember that depending on cloud there has to be a good params file for it!
     cloud1 = cc.loadPointCloud(path1)
     cloud2 = cc.loadPointCloud(path2)
-
     prGreen("Loading finished")
     # cloud1.setName("cloud1")
     # cloud2.setName("cloud2")
