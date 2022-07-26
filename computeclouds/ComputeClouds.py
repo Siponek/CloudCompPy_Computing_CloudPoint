@@ -69,34 +69,42 @@ def convertLasTxt(
     x: float = 0.0
     y: float = 0.0
     z: float = 0.0
+    # limit : int = 0
     #! remark - path 2 has a lot of points, so it takes a while to read it (76_568_359 to be exact).
-    with tqdm(total=Path(pathToFile).stat().st_size) as pbar:
+    with tqdm.tqdm(total=Path(pathToFile).stat().st_size) as pbar:
         with laspy.open(source=pathToFile) as cloudFileHeader:
             if type(cloudFileHeader) != None:
                 cloudFile = laspy.read(source=pathToFile)
                 try:
                     print("Cloud loaded")
                     print(f"cloud name:{cloudFile.header}")
-                except:
+                except Exception as e:
+                    print(e)
                     print(f"cloud name:<unknown>")
 
             # ? It seems that chunk_iterator helps to read data in batches. In every batch it reads the data and then it moves to the next batch.
             # ? Points.array is in fact a one point array. if we set chunk_iterator to (1)
             # ? What is the data inside of the point? It must be x,y,z and something else. It is possible to extract x,y,z from the point. Is it enough data?
             for points in cloudFileHeader.chunk_iterator(1):
+                # print("points.array[0]['X'], points.array[0]['Y'], points.array[0]['Z']", points.x, points.y, points.array[0]['Z'])
+                # print("Compare the values", points.x[0] == points.array[0]['X'])
+                # print("Compare the values", points.x[0],  points.array[0]['X'])
+
+                # x,y,z = points.array[0]['X'], points.array[0]['Y'], points.array[0]['Z']
                 x, y, z = points.x[0], points.y[0], points.z[0]
-                # x, y, z = (
-                #     points.array[0]["X"],
-                #     points.array[0]["Y"],
-                #     points.array[0]["Z"],
-                # )
-                valuesToAppend = np.array([[x, y, z]])
+
+                # valuesToAppend = np.array([[x,y,z]])
+                valuesToAppend = [x, y, z]
                 tmpList.append(valuesToAppend)
                 # listCoord_XYZ = np.concatenate((listCoord_XYZ, valuesToAppend), axis=0)
                 # np.append(arr = listCoord_XYZ, values= valuesToAppend , axis=0)
                 pbar.update(n=1)
+                # if limit == 20:
+                #     break
+                # limit +=1
             listCoord_XYZ = np.array(tmpList)
             pbar.close()
+            print("Shape of the array:", listCoord_XYZ.shape)
             np.savetxt(
                 nameOfFileOutput,
                 listCoord_XYZ,
@@ -360,13 +368,14 @@ def calcM3C2(
     path1 = firstCd
     path2 = secondCd
 
-    # assert os.path.isfile(
-    #     path1
-    # ), "First cloud file does not exist. Check the path."
-    # assert os.path.isfile(
-    #     path2
-    # ), "Second cloud file does not exist. Check the path."
-
+    """
+    assert os.path.isfile(
+        path1
+    ), "First cloud file does not exist. Check the path."
+    assert os.path.isfile(
+        path2
+    ), "Second cloud file does not exist. Check the path."
+    """
     prYellow("parametersConfigFilePath _>")
     prYellow(os.path.abspath(parametersConfigFilePath))
     # print(os.path.abspath(parametersConfigFilePath) + parametersConfigFilePath )
@@ -386,8 +395,8 @@ def calcM3C2(
     cloud2 = cc.loadPointCloud(path2)
 
     prGreen("Loading finished")
-    cloud1.setName("cloud1")
-    cloud2.setName("cloud2")
+    # cloud1.setName("cloud1")
+    # cloud2.setName("cloud2")
     if verbose:
         timeStartICP = perf_counter()
     if alignICP:
@@ -431,7 +440,6 @@ def calcM3C2(
             CloudAfterM3C2 = cc.M3C2.computeM3C2(
                 [cloud1, cloud2], paramFilePath
             )
-
             prGreen("M3C2 plugin work finished")
             if CloudAfterM3C2 is None:
                 raise RuntimeError
