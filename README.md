@@ -5,10 +5,14 @@ Mini project for computing distances/differences between two point clouds.
 <br />
 Currently I am trying to automate the view through Potree using apache webserver from XAMPP
 <br />
----
+
 requirements:
 Anaconda enviroment described for Win10 binary run project of CloudComp39 <br />
 Laspy <br />
+
+
+- 👯 I’m looking to collaborate on some Django backend for this quick automation and results viewing
+- ⚡ Fun fact: Lady Dimitrescu A$$ from Resident Evil Village has more polygons than the entire Resident Evil 1
 <!--
  ✨ _special_ ✨
 
