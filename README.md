@@ -1,6 +1,8 @@
 # CloudCompPy_Computing-CloudPoint
-Mini project for computing distances/differences between two point clouds
+Mini project for computing distances/differences between two point clouds.
 
+<br />
+Currently I am trying to automate the view through Potree using apache webserver from XAMPP
 
 requirements:
 Anaconda enviroment described for Win10 binary run project of CloudComp39 <br />
