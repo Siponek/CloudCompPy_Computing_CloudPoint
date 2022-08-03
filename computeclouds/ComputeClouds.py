@@ -592,7 +592,11 @@ def constrainCloud(
     print(f"Constraining cloud {path_to_cloud}")
     print(f"Output cloud {path_to_output_cloud}")
     # Xmin, Xmax, Ymin, Ymax, Zmin, Zmax = -0, 3, -0, 3, -10, 10
-    [Xmin, Xmax, Ymin, Ymax, Zmin, Zmax] = bounding_box_list
+    if len(bounding_box_list) == 4:
+        [Xmin, Xmax, Ymin, Ymax] = bounding_box_list
+        Zmin, Zmax = None, None
+    else:
+        [Xmin, Xmax, Ymin, Ymax, Zmin, Zmax] = bounding_box_list
     time_now: float = perf_counter()
     with open(path_to_cloud, "r") as f:
         # TODO check if this is the correct way to read the file, maybe it is better to use the different methods.
@@ -634,8 +638,8 @@ def constrainCloud(
                 or cell_in_data1_list[0] <= Xmin
                 or cell_in_data1_list[1] >= Ymax
                 or cell_in_data1_list[1] <= Ymin
-                or cell_in_data1_list[2] >= Zmax
-                or cell_in_data1_list[2] <= Zmin
+                or (not Zmax is None and cell_in_data1_list[2] >= Zmax)
+                or (not Zmin is None and cell_in_data1_list[2] <= Zmin)
             ):
                 continue
             else:
