@@ -6,8 +6,8 @@ Mini project for computing distances/differences between two point clouds.
 Currently I am trying to automate the view through Potree using apache webserver from XAMPP
 <br />
 
-requirements:
-Anaconda enviroment described for Win10 binary run project of CloudComp39 <br />
+requirements:<br />
+Anaconda enviroment described for Win10 binary run project of CloudCompy39 (CloudCompare for python)<br />
 Laspy <br />
 
 
