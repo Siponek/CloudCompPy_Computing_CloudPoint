@@ -6,19 +6,15 @@ import numpy as np
 import laspy
 import tqdm
 from pathlib import Path
-import cloudComPy as cc
 from gendata import getSampleCloud, dataDir
 from multiprocessing import cpu_count
-
-from time import perf_counter, localtime, time
 import datetime
+from time import perf_counter, localtime, time
 
-# import logging
+import cloudComPy as cc
+
 
 print("ComputeClouds_> Main : Libs loaded")
-
-### TODO : Clear the code below
-### TODO : Keep the cohesion of the code
 
 
 def prRed(skk):
@@ -290,8 +286,7 @@ def writeParamsFile(
     m3c2_params_dic["UseSinglePass4Depth"] = "false"
     paramFilename = os.path.join(
         os.path.abspath("")
-        + "\dataFolder\PythonParameters\%s"
-        % parametersConfigFilePath
+        + "\dataFolder\PythonParameters\%s" % parametersConfigFilePath
     )
     print(f"Writing parameters to {paramFilename}")
     with open(paramFilename, "w") as f:
@@ -425,9 +420,8 @@ def calcM3C2(
         cloud2 = cloud2ICP
         if verbose:
             timeEndICP = perf_counter()
-            prPurple(
-                "ICP time: %.2f" % (timeEndICP - timeStartICP)
-            )  # timeEndICP - timeStartICP
+            # timeEndICP - timeStartICP
+            prPurple("ICP time: %.2f" % (timeEndICP - timeStartICP))
 
     #! Reading parameters form ready file for now
 
@@ -458,11 +452,6 @@ def calcM3C2(
                 prPurple(
                     "M3C2 time: %.2f" % (timeEndM3C2 - timeStartM3C2)
                 )  # timeEndICP - timeStartICP
-
-        # if not math.isclose(sf.getMax(), 0.71, rel_tol=0.01):
-        #     raise RuntimeError
-        # if not math.isclose(sf.getMin(), -0.70, rel_tol=0.01):
-        #     raise RuntimeError
 
         if includeTimestamp:
             current_time = time()
@@ -638,8 +627,12 @@ def constrainCloud(
                 or cell_in_data1_list[0] <= Xmin
                 or cell_in_data1_list[1] >= Ymax
                 or cell_in_data1_list[1] <= Ymin
-                or (not Zmax is None and cell_in_data1_list[2] >= Zmax)
-                or (not Zmin is None and cell_in_data1_list[2] <= Zmin)
+                or (
+                    not Zmax is None and cell_in_data1_list[2] >= Zmax
+                )
+                or (
+                    not Zmin is None and cell_in_data1_list[2] <= Zmin
+                )
             ):
                 continue
             else:

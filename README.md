@@ -2,20 +2,22 @@
 <!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aimeos/aimeos-typo3/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aimeos/aimeos-typo3/?branch=master) -->
 <!-- [![License](https://poser.pugx.org/aimeos/aimeos-typo3/license.svg)](https://packagist.org/packages/aimeos/aimeos-typo3) -->
 
-
 # CloudCompPy_Computing-CloudPoint
+
 Mini project for computing distances/differences between two point clouds using CloudComapre API.
-## Status<br />
+
+## Status
+
 View through Potree using apache webserver from XAMPP.
 
-### Requirements:<br />
-Anaconda enviroment described for Win10 option form project of CloudCompy39 (CloudCompare for python)<br />
-Laspy <br />
+### Requirements
 
-- ⚡ Fun fact: Lady Dimitrescu A$$ from Resident Evil Village has more polygons than the entire Resident Evil 1
+- Anaconda enviroment described for Win10 option form project of CloudCompy39
+<a href="https://github.com/CloudCompare/CloudComPy/blob/master/doc/UseWindowsCondaBinary.md">(CloudCompare for python)</a>
+<br>
+- Laspy
 <!--
  ✨ _special_ ✨
-
 
 - 🔭 I’m currently working on ...
 - 🌱 I’m currently learning ...
