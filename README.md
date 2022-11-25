@@ -3,6 +3,7 @@
 <!-- [![License](https://poser.pugx.org/aimeos/aimeos-typo3/license.svg)](https://packagist.org/packages/aimeos/aimeos-typo3) -->
 
 # CloudCompPy_Computing-CloudPoint
+Main API that is needed is inside __computeclouds/ComputeClouds.py__, rest of the files are to testing other funtionalities of CloudComPy.
 
 Mini project for computing distances/differences between two point clouds using CloudComapre API.
 
