@@ -15,7 +15,7 @@ View through Potree using apache webserver from XAMPP.
 
 - Anaconda enviroment described for Win10 option form project of CloudCompy39
 <a href="https://github.com/CloudCompare/CloudComPy/blob/master/doc/UseWindowsCondaBinary.md">(CloudCompare for python)</a>
-<br>
+
 - Laspy
 <!--
  ✨ _special_ ✨
