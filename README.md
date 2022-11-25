@@ -9,7 +9,7 @@ Mini project for computing distances/differences between two point clouds using 
 
 ## Status
 
-View through Potree using apache webserver from XAMPP.
+View through Potree using apache webserver from XAMPP or using CloudCompare.
 
 ### Requirements
 
